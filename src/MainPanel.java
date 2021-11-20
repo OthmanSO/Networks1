@@ -4,10 +4,12 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 import javax.swing.JButton;
@@ -18,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainPanel extends JFrame {
 
@@ -190,6 +194,22 @@ public class MainPanel extends JFrame {
 		getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("test connection");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					sendingTestingMessage();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			private void sendingTestingMessage() throws Exception {
+				InetAddress IP = InetAddress.getByName(ReIPtxt.getText());
+				int port = Integer.parseInt(RePtxt.getText());
+				sendMessage("testing connection", IP, port);
+			}
+		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_1.setBounds(562, 357, 130, 21);
 		getContentPane().add(btnNewButton_1);
@@ -208,6 +228,14 @@ public class MainPanel extends JFrame {
 		JTextArea textAreaOnU = new JTextArea();
 		textAreaOnU.setFont(new Font("Courier New", Font.BOLD, 11));
 		scrollPaneOnU.setViewportView(textAreaOnU);
+	}
+
+	protected void sendMessage(String sentence, InetAddress ip, int port) throws Exception {
+		DatagramSocket clientSocket = new DatagramSocket();
+		byte[] sendData = sentence.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, port);
+		clientSocket.send(sendPacket);
+		clientSocket.close();
 	}
 
 	void recievingMsg() throws Exception {
