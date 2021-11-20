@@ -173,12 +173,12 @@ public class MainPanel extends JFrame {
 
 		JButton btnNewButton = new JButton("Send");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(470, 315, 80, 50);
+		btnNewButton.setBounds(460, 345, 67, 44);
 		getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("test Button");
+		JButton btnNewButton_1 = new JButton("test connection");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_1.setBounds(595, 340, 100, 21);
+		btnNewButton_1.setBounds(503, 306, 130, 21);
 		getContentPane().add(btnNewButton_1);
 
 		JLabel OnUlbl = new JLabel("Online Users");
