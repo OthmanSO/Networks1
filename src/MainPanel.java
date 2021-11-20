@@ -4,6 +4,10 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,7 +36,7 @@ public class MainPanel extends JFrame {
 		setPreferredSize(new Dimension(910, 500));
 		pack();
 		setLocationRelativeTo(null);
-		//setVisible(true);
+		// setVisible(true);
 
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("ClientChat");
@@ -204,9 +208,33 @@ public class MainPanel extends JFrame {
 		scrollPaneOnU.setViewportView(textAreaOnU);
 	}
 
-	public static void main(String[] args) {
+	void recievingMsg() throws Exception {
+
+		DatagramSocket serverSocket = new DatagramSocket();
+		byte[] receiveData = new byte[2048];
+		byte[] sendData = new byte[2048];
+
+		while (true) {
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			serverSocket.receive(receivePacket);
+			String sentence = new String(receivePacket.getData());
+			handleRecievedData(sentence);
+			InetAddress IPAddress = receivePacket.getAddress();
+			int port = receivePacket.getPort();
+			String response = "recieved";
+			sendData = response.getBytes();
+			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+			serverSocket.send(sendPacket);
+		}
+
+	}
+
+	private void handleRecievedData(String sentence) {
+
+	}
+
+	public static void main(String[] args) throws Exception {
 		MainPanel p = new MainPanel();
 		p.setVisible(true);
-
 	}
 }
