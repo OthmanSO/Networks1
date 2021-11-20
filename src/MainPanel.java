@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -27,10 +28,14 @@ public class MainPanel extends JFrame {
 	private JTextField RePtxt;
 
 	public MainPanel() {
+		setPreferredSize(new Dimension(400, 300));
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("ClientChat");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\shahrori tec\\Desktop\\icon 1.png"));
-		setResizable(false);
 		getContentPane().setLayout(null);
 
 		JLabel usernamelbl = new JLabel("Username:");
@@ -198,8 +203,7 @@ public class MainPanel extends JFrame {
 		scrollPaneOnU.setViewportView(textAreaOnU);
 	}
 
-	public static void main() {
+	public static void main(String[] args) {
 		MainPanel p = new MainPanel();
-		p.setVisible(true);
 	}
 }
