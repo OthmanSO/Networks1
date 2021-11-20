@@ -1,17 +1,17 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
+
 import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import java.awt.Choice;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class MainPanel extends JFrame {
 
@@ -57,6 +57,7 @@ public class MainPanel extends JFrame {
 		logoutbtn.setBounds(345, 12, 85, 33);
 		getContentPane().add(logoutbtn);
 		logoutbtn.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				usernameLoggedIn = null;
 			}
