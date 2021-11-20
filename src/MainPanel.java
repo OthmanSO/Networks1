@@ -16,6 +16,10 @@ public class MainPanel extends JFrame {
 	private JTextField statustxt;
 	private JTextField TSItxt;
 	private JTextField TSPtxt;
+	private JTextField LIPtxt;
+	private JTextField LPtxt;
+	private JTextField ReIPtxt;
+	private JTextField RePtxt;
 	public MainPanel() {
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("ClientChat");
@@ -107,5 +111,78 @@ public class MainPanel extends JFrame {
 		comboBoxAvInter.setFont(new Font("Tahoma", Font.BOLD, 11));
 		comboBoxAvInter.setBounds(460, 90, 255, 35);
 		getContentPane().add(comboBoxAvInter);
+		
+		JLabel LIPlbl = new JLabel("Local IP:");
+		LIPlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LIPlbl.setBounds(460, 141, 115, 20);
+		getContentPane().add(LIPlbl);
+		
+		JLabel Lplbl = new JLabel("Local Port:");
+		Lplbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		Lplbl.setBounds(460, 171, 115, 20);
+		getContentPane().add(Lplbl);
+		
+		LIPtxt = new JTextField();
+		LIPlbl.setLabelFor(LIPtxt);
+		LIPtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LIPtxt.setBounds(546, 142, 115, 20);
+		getContentPane().add(LIPtxt);
+		LIPtxt.setColumns(10);
+		
+		LPtxt = new JTextField();
+		Lplbl.setLabelFor(LPtxt);
+		LPtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LPtxt.setBounds(546, 171, 115, 20);
+		getContentPane().add(LPtxt);
+		LPtxt.setColumns(10);
+		
+		JLabel ReIPlbl = new JLabel("Remote IP:");
+		ReIPlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		ReIPlbl.setBounds(460, 244, 115, 20);
+		getContentPane().add(ReIPlbl);
+		
+		JLabel RePlbl = new JLabel("Remote Port:");
+		RePlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		RePlbl.setBounds(460, 274, 115, 20);
+		getContentPane().add(RePlbl);
+		
+		ReIPtxt = new JTextField();
+		ReIPlbl.setLabelFor(ReIPtxt);
+		ReIPtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+		ReIPtxt.setBounds(546, 244, 115, 20);
+		getContentPane().add(ReIPtxt);
+		ReIPtxt.setColumns(10);
+		
+		RePtxt = new JTextField();
+		RePlbl.setLabelFor(RePtxt);
+		RePtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+		RePtxt.setBounds(546, 274, 115, 20);
+		getContentPane().add(RePtxt);
+		RePtxt.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Send");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBounds(470, 315, 80, 50);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("test Button");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_1.setBounds(595, 340, 100, 21);
+		getContentPane().add(btnNewButton_1);
+		
+		JLabel OnUlbl = new JLabel("Online Users");
+		OnUlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+		OnUlbl.setHorizontalAlignment(SwingConstants.CENTER);
+		OnUlbl.setBounds(742, 10, 126, 20);
+		getContentPane().add(OnUlbl);
+		
+		JScrollPane scrollPaneOnU = new JScrollPane();
+		OnUlbl.setLabelFor(scrollPaneOnU);
+		scrollPaneOnU.setBounds(730, 34, 150, 385);
+		getContentPane().add(scrollPaneOnU);
+		
+		JTextArea textAreaOnU = new JTextArea();
+		textAreaOnU.setFont(new Font("Courier New", Font.BOLD, 11));
+		scrollPaneOnU.setViewportView(textAreaOnU);
 	}
 }
