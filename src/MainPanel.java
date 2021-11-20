@@ -51,11 +51,6 @@ public class MainPanel extends JFrame {
 		loginbtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		loginbtn.setBounds(239, 10, 88, 35);
 		getContentPane().add(loginbtn);
-		loginbtn.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				usernameLoggedIn = usernametxt.getText();
-			}
-		});
 
 		JButton logoutbtn = new JButton("Logout");
 		logoutbtn.setFont(new Font("Tahoma", Font.BOLD, 11));
