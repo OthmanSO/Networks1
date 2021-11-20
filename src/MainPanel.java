@@ -28,10 +28,11 @@ public class MainPanel extends JFrame {
 	private JTextField RePtxt;
 
 	public MainPanel() {
-		setPreferredSize(new Dimension(400, 300));
+		setResizable(false);
+		setPreferredSize(new Dimension(910, 500));
 		pack();
 		setLocationRelativeTo(null);
-		setVisible(true);
+		//setVisible(true);
 
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("ClientChat");
@@ -184,7 +185,7 @@ public class MainPanel extends JFrame {
 
 		JButton btnNewButton_1 = new JButton("test connection");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_1.setBounds(503, 306, 130, 21);
+		btnNewButton_1.setBounds(562, 357, 130, 21);
 		getContentPane().add(btnNewButton_1);
 
 		JLabel OnUlbl = new JLabel("Online Users");
@@ -205,5 +206,7 @@ public class MainPanel extends JFrame {
 
 	public static void main(String[] args) {
 		MainPanel p = new MainPanel();
+		p.setVisible(true);
+
 	}
 }
