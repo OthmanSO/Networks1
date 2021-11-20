@@ -196,4 +196,9 @@ public class MainPanel extends JFrame {
 		textAreaOnU.setFont(new Font("Courier New", Font.BOLD, 11));
 		scrollPaneOnU.setViewportView(textAreaOnU);
 	}
+
+	public static void main() {
+		MainPanel p = new MainPanel();
+		p.setVisible(true);
+	}
 }
