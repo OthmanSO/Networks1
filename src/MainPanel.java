@@ -8,6 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import javax.swing.SwingConstants;
 public class MainPanel extends JFrame {
 
 	private String usernameLoggedIn;
+	private List<String> Onusers = new ArrayList<>();
 
 	private JTextField usernametxt;
 	private JTextField statustxt;
@@ -218,18 +220,19 @@ public class MainPanel extends JFrame {
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			serverSocket.receive(receivePacket);
 			String sentence = new String(receivePacket.getData());
-			handleRecievedData(sentence);
 			InetAddress IPAddress = receivePacket.getAddress();
 			int port = receivePacket.getPort();
+			handleRecievedData(sentence, IPAddress, port);
 			String response = "recieved";
 			sendData = response.getBytes();
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 			serverSocket.send(sendPacket);
+
 		}
 
 	}
 
-	private void handleRecievedData(String sentence) {
+	private void handleRecievedData(String sentence, InetAddress iPAddress, int port) {
 
 	}
 
