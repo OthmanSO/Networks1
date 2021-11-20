@@ -79,8 +79,9 @@ public class MainPanel extends JFrame {
 		scrollPane1.setBounds(20, 55, 430, 239);
 		getContentPane().add(scrollPane1);
 
-		JTextArea textArea1 = new JTextArea();
-		scrollPane1.setViewportView(textArea1);
+		JTextArea chattxt = new JTextArea();
+		chattxt.setEditable(false);
+		scrollPane1.setViewportView(chattxt);
 
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(20, 303, 430, 86);
@@ -95,6 +96,7 @@ public class MainPanel extends JFrame {
 		getContentPane().add(statuslbl);
 
 		statustxt = new JTextField();
+		statustxt.setEditable(false);
 		statuslbl.setLabelFor(statustxt);
 		statustxt.setFont(new Font("Tahoma", Font.BOLD, 11));
 		statustxt.setBounds(100, 408, 530, 30);
@@ -206,6 +208,7 @@ public class MainPanel extends JFrame {
 		getContentPane().add(scrollPaneOnU);
 
 		JTextArea textAreaOnU = new JTextArea();
+		textAreaOnU.setEditable(false);
 		textAreaOnU.setFont(new Font("Courier New", Font.BOLD, 11));
 		scrollPaneOnU.setViewportView(textAreaOnU);
 	}
@@ -241,7 +244,8 @@ public class MainPanel extends JFrame {
 
 		if (sentence.equals("test connection")) {
 
-		}
+		} else
+			;
 
 	}
 
