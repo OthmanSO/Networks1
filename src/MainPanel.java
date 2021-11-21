@@ -240,9 +240,13 @@ public class MainPanel extends JFrame {
 		isOnlineCheck(sender);
 
 		if (sentence.equals("test connection")) {
-
+			changeStatus(sender + "is online now");
 		}
 
+	}
+
+	private void changeStatus(String msg) {
+		statustxt.setText(msg);
 	}
 
 	private void isOnlineCheck(String sender) {
@@ -251,7 +255,6 @@ public class MainPanel extends JFrame {
 			if (tmp.equals(sender)) {
 				isfound = true;
 			}
-
 		}
 		if (isfound == false) {
 			Onusers.add(sender);
