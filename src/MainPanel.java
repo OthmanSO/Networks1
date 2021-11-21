@@ -26,6 +26,11 @@ import com.sun.nio.sctp.SendFailedNotification;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+// what's next :
+// 1- we need TCP not UDP 
+// 2- we need to update status on send 
+// 3- we need to test it 
+
 public class MainPanel extends JFrame {
 
 	private String usernameLoggedIn;
