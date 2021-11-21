@@ -33,6 +33,8 @@ public class MainPanel extends JFrame {
 	private JTextField ReIPtxt;
 	private JTextField RePtxt;
 
+	private JTextArea chattxt;
+
 	public MainPanel() {
 		setResizable(false);
 		setPreferredSize(new Dimension(910, 500));
@@ -79,7 +81,7 @@ public class MainPanel extends JFrame {
 		scrollPane1.setBounds(20, 55, 430, 239);
 		getContentPane().add(scrollPane1);
 
-		JTextArea chattxt = new JTextArea();
+		chattxt = new JTextArea();
 		chattxt.setEditable(false);
 		scrollPane1.setViewportView(chattxt);
 
@@ -245,7 +247,8 @@ public class MainPanel extends JFrame {
 		if (sentence.equals("test connection")) {
 			changeStatus(sender + "is online now");
 		} else {
-
+			chattxt.setText(chattxt.getText() + "\n" + sentence);
+			changeStatus("Message recieved from :" + sender);
 		}
 
 	}
@@ -269,5 +272,6 @@ public class MainPanel extends JFrame {
 	public static void main(String[] args) throws Exception {
 		MainPanel p = new MainPanel();
 		p.setVisible(true);
+		p.recievingMsg();
 	}
 }
