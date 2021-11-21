@@ -252,6 +252,19 @@ public class MainPanel extends JFrame {
 		JButton btnNewButton_2 = new JButton("Send to all");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (String s : Onusers) {
+					String[] t = s.split(",");
+					int port = Integer.parseInt(t[1]);
+					InetAddress ip = null;
+					try {
+						ip = InetAddress.getByName(t[0]);
+						sendMsg(usernameLoggedIn + " : " + messageTF.getText() + " \n", ip, port);
+					} catch (SocketException | UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
 			}
 		});
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
