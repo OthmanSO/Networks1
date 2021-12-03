@@ -16,6 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class ServerTCPChat extends JFrame {
 	private JTextField textField;
@@ -28,7 +29,7 @@ public class ServerTCPChat extends JFrame {
 		panel.setLayout(null);
 
 		textField = new JTextField();
-		textField.setBounds(128, 11, 72, 20);
+		textField.setBounds(142, 11, 72, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 
@@ -41,7 +42,8 @@ public class ServerTCPChat extends JFrame {
 		panel.add(textArea);
 
 		JLabel lblNewLabel_1 = new JLabel("Online Users");
-		lblNewLabel_1.setBounds(67, 77, 72, 14);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(24, 77, 160, 14);
 		panel.add(lblNewLabel_1);
 
 		JButton btnNewButton = new JButton("Turn on the server");
@@ -70,7 +72,9 @@ public class ServerTCPChat extends JFrame {
 						if (tmp[0].equals("delete")) {
 							deleteUser(tmp[1], inaddr, clientPort);
 							replyingMessage = "\n";
-						} else {
+						} else if(clientSentence.equals("")){
+							replyingMessage ="";
+						}else{
 							replyingMessage = returnListOfUsers() + "\n";
 							addIfNotAdded(clientSentence, inaddr, clientPort);
 						}
@@ -82,7 +86,7 @@ public class ServerTCPChat extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(48, 43, 123, 23);
+		btnNewButton.setBounds(20, 43, 164, 23);
 		panel.add(btnNewButton);
 
 	}
@@ -112,7 +116,9 @@ public class ServerTCPChat extends JFrame {
 	}
 
 	public static void main(String[] args) {
-
+		ServerTCPChat serverchat = new ServerTCPChat();
+		serverchat.setSize(240, 500);
+		serverchat.setVisible(true);
 	}
 
 	class UserConnection {

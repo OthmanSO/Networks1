@@ -4,10 +4,14 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -29,7 +33,7 @@ import java.awt.event.ActionEvent;
 public class MainPanel extends JFrame {
 
 	private String usernameLoggedIn;
-	private List<String> Onusers = new ArrayList<>();
+	private List<String> Onusers = new ArrayList<String>();
 	private String sendingTo;
 	private JTextField usernametxt;
 	private JTextField statustxt;
@@ -66,21 +70,64 @@ public class MainPanel extends JFrame {
 		usernametxt.setColumns(10);
 
 		JButton loginbtn = new JButton("Login");
+		loginbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String sentence;
+				String serverAnswer;
+				try {
+					Socket clientSocket = new Socket(InetAddress.getByName(TSItxt.getText()),
+							Integer.parseInt(TSPtxt.getText()));
+					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+					BufferedReader inFromServer = new BufferedReader(
+							new InputStreamReader(clientSocket.getInputStream()));
+
+					sentence = usernameLoggedIn;
+					outToServer.writeBytes(sentence + "\n");
+
+					serverAnswer = inFromServer.readLine();
+					String[] tmp = serverAnswer.split(serverAnswer, ',');
+					for (String usr : Onusers) {
+						Onusers.remove(usr);
+					}
+					for (String t : tmp) {
+						Onusers.add(t);
+					}
+					reprintOnlineUsers();
+					clientSocket.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		loginbtn.setForeground(Color.RED);
 		loginbtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		loginbtn.setBounds(239, 10, 88, 35);
 		getContentPane().add(loginbtn);
 
 		JButton logoutbtn = new JButton("Logout");
+		logoutbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String sentence;
+				try {
+					Socket clientSocket = new Socket(InetAddress.getByName(TSItxt.getText()),
+							Integer.parseInt(TSPtxt.getText()));
+					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+					sentence = "delete|" + usernameLoggedIn + "\n";
+					outToServer.writeBytes(sentence + '\n');
+					usernameLoggedIn = "";
+					for (String usr : Onusers) {
+						Onusers.remove(usr);
+					}
+					clientSocket.close();
+					reprintOnlineUsers();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		logoutbtn.setFont(new Font("Tahoma", Font.BOLD, 11));
 		logoutbtn.setBounds(345, 12, 85, 33);
 		getContentPane().add(logoutbtn);
-		logoutbtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				usernameLoggedIn = null;
-			}
-		});
 
 		JScrollPane scrollPane1 = new JScrollPane();
 		scrollPane1.setBounds(20, 55, 430, 239);
@@ -179,7 +226,6 @@ public class MainPanel extends JFrame {
 					ip = InetAddress.getByName(t[0]);
 					sendMsg(usernameLoggedIn + " : " + messageTF.getText() + " \n", ip, port);
 				} catch (SocketException | UnknownHostException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -191,7 +237,31 @@ public class MainPanel extends JFrame {
 		JButton btnNewButton_1 = new JButton("referesh");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//send to server
+				String sentence;
+				String serverAnswer;
+				try {
+					Socket clientSocket = new Socket(InetAddress.getByName(TSItxt.getText()),
+							Integer.parseInt(TSPtxt.getText()));
+					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+					BufferedReader inFromServer = new BufferedReader(
+							new InputStreamReader(clientSocket.getInputStream()));
+
+					sentence = usernameLoggedIn;
+					outToServer.writeBytes(sentence + "\n");
+
+					serverAnswer = inFromServer.readLine();
+					String[] tmp = serverAnswer.split(serverAnswer, ',');
+					for (String usr : Onusers) {
+						Onusers.remove(usr);
+					}
+					for (String t : tmp) {
+						Onusers.add(t);
+					}
+					reprintOnlineUsers();
+					clientSocket.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -225,7 +295,6 @@ public class MainPanel extends JFrame {
 						ip = InetAddress.getByName(t[0]);
 						sendMsg(usernameLoggedIn + " : " + messageTF.getText() + " \n", ip, port);
 					} catch (SocketException | UnknownHostException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -238,7 +307,6 @@ public class MainPanel extends JFrame {
 	}
 
 	protected void reprintOnlineUsers() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -254,7 +322,6 @@ public class MainPanel extends JFrame {
 			String sentence = new String(receivePacket.getData());
 			InetAddress IPAddress = receivePacket.getAddress();
 			int port = receivePacket.getPort();
-			handleRecievedData(sentence, IPAddress, port);
 		}
 	}
 
@@ -269,50 +336,8 @@ public class MainPanel extends JFrame {
 			clientSocket.send(sendPacket);
 		} catch (IOException e) {
 			String user = ip + "," + port;
-			if (isOnlineCheck(user))
-				for (int i = 0; i < Onusers.size(); i++)
-					if (Onusers.get(i).equals(user)) {
-						Onusers.remove(i);
-						reprintOnlineUsers();
-					}
+
 		}
-	}
-
-	private void handleRecievedData(String sentence, InetAddress iPAddress, int port) {
-		String sender = "";
-		sender += iPAddress;
-		sender += ",";
-		sender += port;
-		isOnlineCheck(sender);
-
-		if (sentence.equals("test connection")) {
-			changeStatus(sender + "is online now");
-		} else {
-			chattxt.setText(chattxt.getText() + "\n" + sentence);
-			changeStatus("Message recieved from :" + sender);
-		}
-
-	}
-
-	private void changeStatus(String msg) {
-		statustxt.setText(msg);
-	}
-
-	private void isOnlineCheckAndAdd(String sender) {
-		boolean isfound = isOnlineCheck(sender);
-		if (isfound == false) {
-			Onusers.add(sender);
-		}
-	}
-
-	private boolean isOnlineCheck(String sender) {
-		boolean isfound = false;
-		for (String tmp : Onusers) {
-			if (tmp.equals(sender)) {
-				isfound = true;
-			}
-		}
-		return isfound;
 	}
 
 	public static void main(String[] args) throws Exception {
