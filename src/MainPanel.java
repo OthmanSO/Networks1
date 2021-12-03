@@ -220,10 +220,10 @@ public class MainPanel extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] t = sendingTo.split(",");
-				int port = Integer.parseInt(t[1]);
+				int port = Integer.parseInt(t[2]);
 				InetAddress ip = null;
 				try {
-					ip = InetAddress.getByName(t[0]);
+					ip = InetAddress.getByName(t[1]);
 					sendMsg(usernameLoggedIn + " : " + messageTF.getText() + " \n", ip, port);
 				} catch (SocketException | UnknownHostException e1) {
 					e1.printStackTrace();
@@ -314,14 +314,12 @@ public class MainPanel extends JFrame {
 
 		DatagramSocket serverSocket = new DatagramSocket();
 		byte[] receiveData = new byte[2048];
-		byte[] sendData = new byte[2048];
 
 		while (true) {
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			serverSocket.receive(receivePacket);
 			String sentence = new String(receivePacket.getData());
-			InetAddress IPAddress = receivePacket.getAddress();
-			int port = receivePacket.getPort();
+			chattxt.setText(chattxt.getText() + "\n" + sentence);
 		}
 	}
 
@@ -329,7 +327,6 @@ public class MainPanel extends JFrame {
 		byte[] sendData = new byte[2048];
 		DatagramSocket clientSocket;
 		clientSocket = new DatagramSocket();
-
 		sendData = sentence.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, port);
 		try {
@@ -338,6 +335,7 @@ public class MainPanel extends JFrame {
 			String user = ip + "," + port;
 
 		}
+		clientSocket.close();
 	}
 
 	public static void main(String[] args) throws Exception {
