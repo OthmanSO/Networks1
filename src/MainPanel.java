@@ -26,11 +26,6 @@ import com.sun.nio.sctp.SendFailedNotification;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-// what's next :
-// 1- we need TCP not UDP 
-// 2- we need to update status on send 
-// 3- we need to test it 
-
 public class MainPanel extends JFrame {
 
 	private String usernameLoggedIn;
@@ -42,8 +37,6 @@ public class MainPanel extends JFrame {
 	private JTextField TSPtxt;
 	private JTextField LIPtxt;
 	private JTextField LPtxt;
-	private JTextField ReIPtxt;
-	private JTextField RePtxt;
 
 	private JTextArea chattxt;
 
@@ -176,30 +169,6 @@ public class MainPanel extends JFrame {
 		getContentPane().add(LPtxt);
 		LPtxt.setColumns(10);
 
-		JLabel ReIPlbl = new JLabel("Remote IP:");
-		ReIPlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
-		ReIPlbl.setBounds(460, 244, 115, 20);
-		getContentPane().add(ReIPlbl);
-
-		JLabel RePlbl = new JLabel("Remote Port:");
-		RePlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
-		RePlbl.setBounds(460, 274, 115, 20);
-		getContentPane().add(RePlbl);
-
-		ReIPtxt = new JTextField();
-		ReIPlbl.setLabelFor(ReIPtxt);
-		ReIPtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-		ReIPtxt.setBounds(546, 244, 115, 20);
-		getContentPane().add(ReIPtxt);
-		ReIPtxt.setColumns(10);
-
-		RePtxt = new JTextField();
-		RePlbl.setLabelFor(RePtxt);
-		RePtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-		RePtxt.setBounds(546, 274, 115, 20);
-		getContentPane().add(RePtxt);
-		RePtxt.setColumns(10);
-
 		JButton btnNewButton = new JButton("Send");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -219,23 +188,14 @@ public class MainPanel extends JFrame {
 		btnNewButton.setBounds(460, 338, 100, 20);
 		getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("test connection");
+		JButton btnNewButton_1 = new JButton("referesh");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] t = sendingTo.split(",");
-				int port = Integer.parseInt(t[1]);
-				InetAddress ip = null;
-				try {
-					ip = InetAddress.getByName(t[0]);
-					sendMsg("test connection\n", ip, port);
-				} catch (SocketException | UnknownHostException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				//send to server
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_1.setBounds(582, 315, 133, 21);
+		btnNewButton_1.setBounds(742, 425, 133, 21);
 		getContentPane().add(btnNewButton_1);
 
 		JLabel OnUlbl = new JLabel("Online Users");
