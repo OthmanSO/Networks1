@@ -16,10 +16,12 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -41,8 +43,8 @@ public class MainPanel extends JFrame {
 	private JTextField TSPtxt;
 	private JTextField LIPtxt;
 	private JTextField LPtxt;
-
 	private JTextArea chattxt;
+	private JList list;
 
 	public MainPanel() {
 		setResizable(false);
@@ -274,16 +276,6 @@ public class MainPanel extends JFrame {
 		OnUlbl.setBounds(742, 10, 126, 20);
 		getContentPane().add(OnUlbl);
 
-		JScrollPane scrollPaneOnU = new JScrollPane();
-		OnUlbl.setLabelFor(scrollPaneOnU);
-		scrollPaneOnU.setBounds(730, 34, 150, 385);
-		getContentPane().add(scrollPaneOnU);
-
-		JTextArea textAreaOnU = new JTextArea();
-		textAreaOnU.setEditable(false);
-		textAreaOnU.setFont(new Font("Courier New", Font.BOLD, 11));
-		scrollPaneOnU.setViewportView(textAreaOnU);
-
 		JButton btnNewButton_2 = new JButton("Send to all");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -304,10 +296,23 @@ public class MainPanel extends JFrame {
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_2.setBounds(460, 369, 100, 20);
 		getContentPane().add(btnNewButton_2);
+
+		list = new JList();
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				sendingTo = list.getSelectedValue().toString();
+			}
+		});
+		list.setBounds(742, 40, 133, 349);
+		getContentPane().add(list);
 	}
 
 	protected void reprintOnlineUsers() {
-
+		DefaultListModel m = new DefaultListModel();
+		for (String s : Onusers)
+			m.addElement(s);
+		list.setModel(m);
 	}
 
 	void recievingMsg() throws Exception {
