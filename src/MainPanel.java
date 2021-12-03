@@ -41,7 +41,6 @@ public class MainPanel extends JFrame {
 	private JTextField statustxt;
 	private JTextField TSItxt;
 	private JTextField TSPtxt;
-	private JTextField LIPtxt;
 	private JTextField LPtxt;
 	private JTextArea chattxt;
 	private JList list;
@@ -87,10 +86,13 @@ public class MainPanel extends JFrame {
 					outToServer.writeBytes(sentence + "\n");
 
 					serverAnswer = inFromServer.readLine();
-					String[] tmp = serverAnswer.split(serverAnswer, ',');
-					for (String usr : Onusers) {
-						Onusers.remove(usr);
-					}
+					String[] tmp = serverAnswer.split(serverAnswer, '|');
+
+					if (Onusers.size() > 0)
+						for (Iterator<String> iterator = Onusers.iterator(); iterator.hasNext();) {
+							String value = iterator.next();
+							iterator.remove();
+						}
 					for (String t : tmp) {
 						Onusers.add(t);
 					}
@@ -117,9 +119,11 @@ public class MainPanel extends JFrame {
 					sentence = "delete|" + usernameLoggedIn + "\n";
 					outToServer.writeBytes(sentence + '\n');
 					usernameLoggedIn = "";
-					for (String usr : Onusers) {
-						Onusers.remove(usr);
-					}
+					if (Onusers.size() > 0)
+						for (Iterator<String> iterator = Onusers.iterator(); iterator.hasNext();) {
+							String value = iterator.next();
+							iterator.remove();
+						}
 					clientSocket.close();
 					reprintOnlineUsers();
 				} catch (Exception ex) {
@@ -194,22 +198,10 @@ public class MainPanel extends JFrame {
 		comboBoxAvInter.setBounds(460, 90, 255, 35);
 		getContentPane().add(comboBoxAvInter);
 
-		JLabel LIPlbl = new JLabel("Local IP:");
-		LIPlbl.setFont(new Font("Tahoma", Font.BOLD, 11));
-		LIPlbl.setBounds(460, 141, 115, 20);
-		getContentPane().add(LIPlbl);
-
 		JLabel Lplbl = new JLabel("Local Port:");
 		Lplbl.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Lplbl.setBounds(460, 171, 115, 20);
 		getContentPane().add(Lplbl);
-
-		LIPtxt = new JTextField();
-		LIPlbl.setLabelFor(LIPtxt);
-		LIPtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-		LIPtxt.setBounds(546, 142, 115, 20);
-		getContentPane().add(LIPtxt);
-		LIPtxt.setColumns(10);
 
 		LPtxt = new JTextField();
 		Lplbl.setLabelFor(LPtxt);
@@ -252,7 +244,7 @@ public class MainPanel extends JFrame {
 					outToServer.writeBytes(sentence + "\n");
 
 					serverAnswer = inFromServer.readLine();
-					String[] tmp = serverAnswer.split(serverAnswer, ',');
+					String[] tmp = serverAnswer.split(serverAnswer, '|');
 					for (String usr : Onusers) {
 						Onusers.remove(usr);
 					}
@@ -317,15 +309,14 @@ public class MainPanel extends JFrame {
 
 	void recievingMsg() throws Exception {
 
-		DatagramSocket serverSocket = new DatagramSocket();
+		DatagramSocket serverSocket = new DatagramSocket(Integer.parseInt(LPtxt.getText()));
 		byte[] receiveData = new byte[2048];
 
-		while (true) {
-			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-			serverSocket.receive(receivePacket);
-			String sentence = new String(receivePacket.getData());
-			chattxt.setText(chattxt.getText() + "\n" + sentence);
-		}
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		serverSocket.receive(receivePacket);
+		String sentence = new String(receivePacket.getData());
+		chattxt.setText(chattxt.getText() + "\n" + sentence);
+
 	}
 
 	private void sendMsg(String sentence, InetAddress ip, int port) throws SocketException {
@@ -346,6 +337,7 @@ public class MainPanel extends JFrame {
 	public static void main(String[] args) throws Exception {
 		MainPanel p = new MainPanel();
 		p.setVisible(true);
-		p.recievingMsg();
+		while (true)
+			p.recievingMsg();
 	}
 }

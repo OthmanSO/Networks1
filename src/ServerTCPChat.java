@@ -72,9 +72,9 @@ public class ServerTCPChat extends JFrame {
 						if (tmp[0].equals("delete")) {
 							deleteUser(tmp[1], inaddr, clientPort);
 							replyingMessage = "\n";
-						} else if(clientSentence.equals("")){
-							replyingMessage ="";
-						}else{
+						} else if (clientSentence.equals("")) {
+							replyingMessage = "";
+						} else {
 							replyingMessage = returnListOfUsers() + "\n";
 							addIfNotAdded(clientSentence, inaddr, clientPort);
 						}
@@ -109,8 +109,14 @@ public class ServerTCPChat extends JFrame {
 
 	protected String returnListOfUsers() {
 		String listOfOnlineUsers = "";
+		boolean f = false;
+		if (online.size() == 0)
+			return listOfOnlineUsers;
 		for (UserConnection userConnection : online) {
-			listOfOnlineUsers += userConnection.toString() + "|";
+			if (f)
+				listOfOnlineUsers += "|";
+			f = true;
+			listOfOnlineUsers += userConnection.toString();
 		}
 		return listOfOnlineUsers;
 	}
